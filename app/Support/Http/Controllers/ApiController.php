@@ -3,10 +3,11 @@
 namespace Support\Http\Controllers;
 
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Resources\Json\JsonResource;
 
 class ApiController extends Controller
 {
-    public function sendResponse(string $message, array|null $data, int $code = 200): JsonResponse
+    public function sendResponse(string $message, JsonResource|array|null $data, int $code = 200): JsonResponse
     {
         $response = [
             'message' => $message,

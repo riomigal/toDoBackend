@@ -1,12 +1,11 @@
 <?php
 
-namespace App\Api\Auth;
+namespace App\Api\Controllers\Auth;
 
-use App\Api\Auth\Requests\LoginRequest;
-use App\Api\Auth\Requests\RegisterRequest;
+use App\Api\Requests\LoginRequest;
+use App\Api\Requests\RegisterRequest;
 use Domain\User\Actions\LoginUserAction;
 use Domain\User\Actions\RegisterUserAction;
-use Domain\User\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
 use Support\Http\Controllers\ApiController;
@@ -17,7 +16,7 @@ class AuthController extends ApiController
     public function login(LoginRequest $request, LoginUserAction $loginUserAction): JsonResponse
     {
         $data = $request->validated();
-        
+
         $user = $loginUserAction->execute($data['email'], $data['password']);
 
         if (!$user) {
