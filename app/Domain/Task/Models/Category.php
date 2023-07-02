@@ -39,6 +39,11 @@ class Category extends Model
         return $this->belongsToMany(User::class);
     }
 
+    public function tasks(): BelongsToMany
+    {
+        return $this->belongsToMany(Task::class);
+    }
+
     protected static function newFactory(): Factory
     {
         return CategoryFactory::new();

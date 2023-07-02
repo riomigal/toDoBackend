@@ -7,7 +7,7 @@ use Domain\User\Models\User;
 
 class AddCategoryAction
 {
-    public function execute(string $name, User $user): Category|null
+    public function execute(string $name, User $user): Category
     {
         $category = Category::firstOrCreate([
             'name' => $name,

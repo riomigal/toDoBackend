@@ -28,18 +28,8 @@ class TaskFactory extends Factory
             'description' => fake()->text(),
             'user_id' => User::factory()->create()->id,
             'priority_id' => Priority::factory()->create()->id,
-            'category_id' => Category::factory()->create()->id,
             'completed' => false
         ];
     }
-
-    /**
-     * Indicate that the model's email address should be unverified.
-     */
-    public function unverified(): static
-    {
-        return $this->state(fn(array $attributes) => [
-            'email_verified_at' => null,
-        ]);
-    }
+    
 }

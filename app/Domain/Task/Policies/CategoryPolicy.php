@@ -24,7 +24,6 @@ class CategoryPolicy
         return true;
     }
 
-
     public function update(User $user, Category $category): bool
     {
         return $this->belongsToUser($user, $category);
@@ -47,7 +46,8 @@ class CategoryPolicy
         return $this->belongsToUser($user, $category);
     }
 
-    protected function belongsToUser(User $user, Category $category) {
-        return $category->users()->where('user_id', $user->id)->first();
+    protected function belongsToUser(User $user, Category $category): bool
+    {
+        return $category->users()->where('user_id', $user->id)->exists();
     }
 }

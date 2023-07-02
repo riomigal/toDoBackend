@@ -19,8 +19,6 @@ return new class extends Migration
             $table->foreign('user_id')->references('id')->on('users')->cascadeOnDelete();
             $table->unsignedTinyInteger('priority_id');
             $table->foreign('priority_id')->references('id')->on('priorities');
-            $table->unsignedBigInteger('category_id');
-            $table->foreign('category_id')->references('id')->on('categories');
             $table->boolean('completed')->default(0);
             $table->softDeletes();
             $table->timestamps();
