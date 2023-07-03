@@ -2,8 +2,10 @@
 
 namespace Domain\Task\QueryBuilders;
 
+
 use Domain\Task\Models\Task;
 use Domain\Task\QueryBuilders\Filters\CategoryFilter;
+use Domain\Task\QueryBuilders\Filters\SearchFilter;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Spatie\QueryBuilder\AllowedFilter;
@@ -18,8 +20,10 @@ class TaskQuery extends QueryBuilder
         with(['user', 'priority', 'categories'])
             ->allowedFilters([
                 'name', 'description', 'completed', 'priority_id',
-                AllowedFilter::custom('category', new CategoryFilter)
+                AllowedFilter::custom('category', new CategoryFilter),
+                AllowedFilter::custom('search', new SearchFilter(), 'name,description')
             ])
+            ->allowedSorts(['priority_id', 'created_at'])
             ->allowedIncludes(['priority', 'categories']);
     }
 
