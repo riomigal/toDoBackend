@@ -21,7 +21,9 @@ class TaskResource extends JsonResource
             'completed' => $this->completed,
             'user' => new UserResource($this->user),
             'priority' => new PriorityResource($this->priority),
-            'categories' => CategoryResource::collection($this->categories)
+            'categories' => CategoryResource::collection($this->categories),
+            'created' => $this->created_at->format('M d Y, h:i:s'),
+            'updated' => $this->updated_at->format('M d Y, h:i:s'),
         ];
     }
 }

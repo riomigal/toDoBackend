@@ -13,7 +13,6 @@ use Support\Http\Controllers\ApiController;
 
 class AuthController extends ApiController
 {
-
     public function login(LoginRequest $request, LoginUserAction $loginUserAction): JsonResponse
     {
         $data = $request->validated();
@@ -40,7 +39,7 @@ class AuthController extends ApiController
     public function logout(): JsonResponse
     {
         Auth::user()->tokens()->delete();
-        return $this->sendResponse(__('Logout successful'), 200);
+        return $this->sendResponse(__('Logout successful'), [], 200);
     }
 
     protected function getTokenResponse(User $user): array
@@ -49,7 +48,7 @@ class AuthController extends ApiController
             'user' => $user,
             'authorization' => [
                 'token' => $user->createToken('apiAuthToken')->plainTextToken,
-                'type' => 'bearer',
+                'type' => 'Bearer',
             ]
         ];
     }
