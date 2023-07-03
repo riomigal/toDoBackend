@@ -4,7 +4,7 @@ namespace App\Api\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class AddTaskRequest extends FormRequest
+class TaskRequest extends FormRequest
 {
     public function authorize(): bool
     {

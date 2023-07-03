@@ -2,12 +2,13 @@
 
 namespace App\Api\Controllers\Task;
 
-use App\Api\Requests\AddTaskRequest;
+use App\Api\Requests\TaskRequest;
 use App\Api\Resources\TaskResource;
 use Domain\Task\Actions\AddMultipleCategoriesAction;
 use Domain\Task\Actions\AddTaskAction;
 use Domain\Task\Actions\DeleteTaskAction;
 use Domain\Task\Actions\MarkTaskCompleteAction;
+use Domain\Task\Actions\UpdateTaskAction;
 use Domain\Task\Models\Priority;
 use Domain\Task\Models\Task;
 use Domain\Task\QueryBuilders\TaskQuery;
@@ -17,11 +18,11 @@ use Support\Http\Controllers\ApiController;
 
 class TaskController extends ApiController
 {
-    public function store(AddTaskRequest $addTaskRequest, AddTaskAction $addTaskAction, AddMultipleCategoriesAction $addMultipleCategoriesAction): JsonResponse
+    public function store(TaskRequest $taskRequest, AddTaskAction $addTaskAction, AddMultipleCategoriesAction $addMultipleCategoriesAction): JsonResponse
     {
         $this->authorize('create', Task::class);
 
-        $data = $addTaskRequest->validated();
+        $data = $taskRequest->validated();
         try {
             DB::beginTransaction();
             $user = auth()->user();
@@ -34,6 +35,25 @@ class TaskController extends ApiController
         }
 
         return $this->sendResponse(__('Task added!'), new TaskResource($task), 201);
+    }
+
+    public function update(TaskRequest $taskRequest, UpdateTaskAction $updateTaskAction, AddMultipleCategoriesAction $addMultipleCategoriesAction, Task $task): JsonResponse
+    {
+        $this->authorize('update', $task);
+
+        $data = $taskRequest->validated();
+        try {
+            DB::beginTransaction();
+            $user = auth()->user();
+            $categories = $addMultipleCategoriesAction->execute($data['categories'], $user);
+            $task = $updateTaskAction->execute($task, $data['name'], $data['description'], $categories, Priority::find($data['priority_id']));
+            DB::commit();
+        } catch (\Exception $exception) {
+            DB::rollBack();
+            throw $exception;
+        }
+
+        return $this->sendResponse(__('Task updated!'), new TaskResource($task), 200);
     }
 
     public function index(): JsonResponse

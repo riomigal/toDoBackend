@@ -34,6 +34,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::prefix('tasks')->controller(TaskController::class)->group(function () {
         Route::post('store', 'store')->name('api.tasks.store');
         Route::get('get', 'index')->name('api.tasks.index');
+        Route::put('update/{task}', 'update')->name('api.tasks.update');
         Route::delete('delete/{task}', 'delete')->name('api.tasks.delete');
         Route::post('complete/{task}', 'complete')->name('api.tasks.complete');
         Route::post('pending/{task}', 'pending')->name('api.tasks.pending');
