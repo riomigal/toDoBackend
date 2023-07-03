@@ -14,7 +14,7 @@ class TaskQuery extends QueryBuilder
     public function __construct(?Request $request = null)
     {
         parent::__construct($this->subject(), $request);
-        $this->
+        $this->latest()->
         with(['user', 'priority', 'categories'])
             ->allowedFilters([
                 'name', 'description', 'completed', 'priority_id',
