@@ -23,9 +23,8 @@ class AddMultipleCategoriesAction
             $category = Category::firstOrCreate([
                 'name' => $category
             ]);
-            if ($category->wasRecentlyCreated) {
-                $ids[] = $category->id;
-            }
+            $ids[] = $category->id;
+
         }
 
         if ($ids) {
